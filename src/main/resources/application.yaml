@@ -1,0 +1,57 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/template
+    password: "root"
+    username: "root"
+    hikari:
+      maximum-pool-size: 10
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  mail:
+    host: smtp.gmail.com       # SMTP server host
+    port: 587                    # SMTP server port (typically 587 for TLS, 465 for SSL)
+    username: jbytrain@gmail.com      # Your SMTP server username
+    password: tmeuescxxxxx      # Your SMTP server password
+    protocol: smtp               # The protocol to use (smtp, smtps)
+    properties:
+      mail:
+        smtp:
+          auth: true             # Enable authentication
+          starttls:
+            enable: true         # Enable STARTTLS for secure connection
+          ssl:
+            trust: smtp.gmail.com  # Trust server's SSL certificate
+        debug: true              # Enable debug mode for mail session
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates/
+  application:
+    name: notes
+  main:
+    allow-circular-references: true
+server:
+  port: 8083
+logging:
+  level:
+    root: ERROR
+template:
+  time.zone: ${APP_TIME_ZONE:UTC}
+  thread.core.pool.size: ${CORE_POOL_SIZE:2}  # Core thread pool size for async tasks
+  thread.max.pool.size: ${MAX_POOL_SIZE:2}  # Max thread pool size for async tasks
+  thread.queue.capacity: ${QUEUE_CAPACITY:500}  # Capacity of the task queue
+  http.client.connection.timeout: ${HTTP_CLIENT_CONN_TIMEOUT:10000}
+  http.client.read.timeout: ${HTTP_CLIENT_READ_TIMEOUT:10000}
+  api:
+    url: http://localhost:8080 # Replace with your rider-api URL

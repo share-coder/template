@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+</head>
+<body>
+<section class="container mt-5 mb-5">
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <h3 class="text-center text-primary mb-4">Edit Profile</h3>
+                    <form th:action="@{/user/submitProfile}" th:object="${user}" method="post">
+                        <!-- Row-1 Name and User ID -->
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="name" class="form-label">Name<span style="color: red">*</span></label>
+                                <input type="text" id="name" name="name" class="form-control" th:value="${user.name}">
+                                <div th:if="${nameError}" class="text-danger mt-1" th:text="${nameError}"></div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="userId" class="form-label">User ID<span style="color: red">*</span></label>
+                                <input type="text" id="userId" name="userId" class="form-control" th:value="${user.userId}">
+                                <div th:if="${userIdError}" class="text-danger mt-1" th:text="${userIdError}"></div>
+                            </div>
+                        </div>
+                        <!-- Row-2 Password and Email -->
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="email" class="form-label">Email<span style="color: red">*</span></label>
+                                <input type="email" id="email" name="email" class="form-control" th:value="${user.email}" readonly>
+                                <div th:if="${emailError}" class="text-danger mt-1" th:text="${emailError}"></div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="passwordInput" class="form-label">Password<span style="color: red">*</span></label>
+                                <div class="input-group">
+                                    <input type="password" id="passwordInput" name="password" class="form-control" th:value="xxxxxxxxxx" required readonly>
+                                </div>
+                                <div th:if="${passwordError}" class="text-danger mt-1" th:text="${passwordError}"></div>
+                            </div>
+                        </div>
+                        <!-- Row-3 Mobile and DOB -->
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="mobileNumber" class="form-label">Mobile<span style="color: red">*</span></label>
+                                <input type="text" id="mobileNumber" name="mobileNumber" class="form-control" th:value="${user.mobileNumber}">
+                                <div th:if="${mobileNumberError}" class="text-danger mt-1" th:text="${mobileNumberError}"></div>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="dob" class="form-label">Date of Birth<span style="color: red">*</span></label>
+                                <input type="date" id="dob" name="dob" class="form-control" th:value="${user.dob}">
+                                <div th:if="${dobError}" class="text-danger mt-1" th:text="${dobError}"></div>
+                            </div>
+                        </div>
+                        <!-- Row-4 Address -->
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address<span style="color: red">*</span></label>
+                            <textarea id="address" name="address" class="form-control" rows="3" th:text="${user.address}"></textarea>
+                            <div th:if="${addressError}" class="text-danger mt-1" th:text="${addressError}"></div>
+                        </div>
+                        <!-- Row-5 Address -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <button class="btn btn-primary">Submit</button>
+                            <a th:href="@{/}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

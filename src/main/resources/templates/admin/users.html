@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Admin Dashboard</title>
+
+</head>
+<body>
+<section class="container-fluid p-3 min-vh-100">
+    <div class="card  shadow bg-body">
+        <div class="card-header text-center fw-bold bg-light">Registered Users</div>
+        <div class="card-body">
+            <a th:href="@{/admin/addUser}" class="btn btn-primary">Add</a>
+            <a th:href="@{/admin/exportUsers}" class="btn btn-primary float-end">Export</a>
+            <div class="table-responsive-md mt-5">
+                <table id="user-table" class="table table-striped">
+                    <thead>
+                    <tr class="text-center">
+                        <th scope="col">Id</th>
+                        <th scope="col">userId</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">DOB</th>
+                        <th scope="col">Status</th>
+                        <th class="text-center" scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody> <!-- Must be empty -->
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <!--    Delete modal-->
+    <div class="modal fade" id="delModal" tabindex="-1" aria-labelledby="delModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="delModalLabel">Delete User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="alert alert-danger">Are you sure want to delete user ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="" class="btn btn-danger" id="delRef">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            if (!$.fn.DataTable.isDataTable('#user-table')) {
+                $('#user-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    pageLength: 10,
+                    lengthMenu: [5, 10, 25, 50, 100],
+                    pagingType: "simple_numbers",
+                    ajax: {
+                        url: "/admin/usersData",
+                        type: "GET",
+                        dataSrc: "data"
+                    },
+                    columns: [
+
+                        { data: "id", name: "id" },
+                        { data: "userId", name: "userId" },
+                        { data: "name", name: "name" },
+                        { data: "mobileNumber", name: "mobileNumber" },
+                        { data: "email", name: "email" },
+                        { data: "address", name: "address", orderable: false },
+                        { data: "dob", name: "dob" },
+                        { data: "status", name: "status" },
+                        {
+                            data: null,
+                            orderable: false,
+                            render: function (data) {
+                                const isSuspended = data.status === "SUSPEND";
+                                const isPending = data.status === "PENDING";
+                                return `
+                               &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                               <a href="/admin/lockUser/${data.id}" class="bi bi-lock-fill text-danger me-2${isSuspended || isPending ? ' disabled' : ''}" title="Lock"
+                                   style="${isSuspended || isPending ? 'pointer-events: none; opacity: 0.5;' : ''}"></a>
+                                <a href="/admin/unlockUser/${data.id}" class="bi bi-unlock-fill text-success${!isSuspended && !isPending ? ' disabled' : ''}" title="Unlock"
+                                   style="${!isSuspended && !isPending ? 'pointer-events: none; opacity: 0.5;' : ''}"></a>&nbsp;&nbsp;
+                                <a href="/admin/editUser/${data.id}" class="bi bi-pencil-square text-primary" title="Edit"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/admin/deleteUserBySu/${data.id}" class="bi bi-x-square-fill text-danger" title="Delete"></a>
+
+<!--                                bi-trash (classic trash bin)-->
+<!--                                bi-trash-fill (filled trash bin)-->
+<!--                                bi-trash3 (modern trash bin)-->
+<!--                                bi-trash3-fill (filled modern trash bin)-->
+<!--                                bi-x-circle (circle with X)-->
+<!--                                bi-x-circle-fill (filled circle with X)-->
+<!--                                bi-x-octagon (octagon with X)-->
+<!--                                bi-x-octagon-fill (filled octagon with X)-->
+<!--                                bi-x-square (square with X)-->
+<!--                                bi-x-square-fill (filled square with X)-->
+                            `;
+                            }
+                        }
+                    ]
+                    ,createdRow: function (row, data, dataIndex) {
+                        if (data.status === "SUSPEND") {
+                            $('td', row).eq(7).css({'color': 'red', 'font-weight': 'bold'});
+                        }
+                        if (data.status === "ACTIVE") {
+                            $('td', row).eq(7).css({'color': 'limegreen', 'font-weight': 'bold'});
+                        }
+                        if (data.status === "PENDING") {
+                            $('td', row).eq(7).css({'color': 'darkgrey', 'font-weight': 'bold'});
+                        }
+                    }
+                });
+            }
+            $('.dataTables_filter').css('margin-bottom', '24px');
+            $('.dataTables_filter input[type="search"]').css('width', '300px');
+
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            let deleteUrl = "";
+            // Intercept delete link click
+            $(document).on('click', '.bi-archive', function (e) {
+                e.preventDefault();
+                deleteUrl = $(this).attr('href');
+                $('#delModal').modal('show');
+            });
+
+            // On confirm delete
+            $('#delRef').on('click', function (e) {
+                e.preventDefault();
+                if (deleteUrl) {
+                    window.location.href = deleteUrl;
+                }
+            });
+
+            // Optional: Reset deleteUrl on modal close
+            $('#delModal').on('hidden.bs.modal', function () {
+                deleteUrl = "";
+            });
+        });
+    </script>
+</section>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!-- au/userHome.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>User Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<!-- au/userHome.html -->
+<section class="container-fluid py-5">
+<!--    <div class="jumbotron bg-light p-5 mb-4 rounded-3 text-center">-->
+<!--        <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Envelop Logo" class="mb-3" style="height: 100px;">-->
+<!--        <h1 class="display-2 fw-bold">Welcome to Envelop</h1>-->
+<!--        <p class="lead">Smart, stylish message(s) made simple.</p>-->
+<!--    </div>-->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <a href="/user/msg" class="text-decoration-none">
+                <div class="card bg-light shadow-sm border-0 rounded-3 text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width:56px; height:56px;">
+                                <i class="bi bi-chat-dots fs-3"></i>
+                            </span>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-1">[[${messageCount}]]</h2>
+                        <div class="text-muted mb-2" style="font-size:1.1rem;">Messages</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/suContactUsView" class="text-decoration-none">
+                <div class="card bg-light shadow-sm border-0 rounded-3 text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width:56px; height:56px;">
+                                <i class="bi bi-telephone fs-3"></i>
+                            </span>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-1">[[${voiceCount}]]</h2>
+                        <div class="text-muted mb-2" style="font-size:1.1rem;">Voices</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/user/recipientlist" class="text-decoration-none">
+                <div class="card bg-light shadow-sm border-0 rounded-3 text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width:56px; height:56px;">
+                                <i class="bi bi-people-fill fs-3"></i>
+                            </span>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-1">[[${recipientlistCount}]]</h2>
+                        <div class="text-muted mb-2" style="font-size:1.1rem;">Recipient List</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="/suContactUsView" class="text-decoration-none">
+                <div class="card bg-light shadow-sm border-0 rounded-3 text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width:56px; height:56px;">
+                                <i class="bi bi-people-fill fs-3"></i>
+                            </span>
+                        </div>
+                        <h2 class="fw-bold text-dark mb-1">[[${messageTemplateCount}]]</h2>
+                        <div class="text-muted mb-2" style="font-size:1.1rem;">Message Templates</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>
