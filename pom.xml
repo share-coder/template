@@ -11,7 +11,7 @@
     <groupId>com.jc</groupId>
     <artifactId>template</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <!-- properties section -->
     <properties>
         <java.version>17</java.version>
     </properties>
